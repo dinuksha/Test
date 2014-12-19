@@ -6,10 +6,20 @@ class Downtime
   field :start_time, type: DateTime
   field :end_time, type: DateTime
 
-  validates_presence_of :message, :start_time, :end_time
+  belongs_to :artefact
+
+  validates_presence_of :message, :start_time, :end_time, :artefact
   validate :time_fields, on: :create
 
   before_validation :generate_message, if: ->{ message.nil? || message.strip.empty? }
+
+  def self.for(artefact)
+    where(artefact_id: artefact.id).first
+  end
+
+  def publicise?
+    Time.zone.now.between?(start_time.to_date - 1, end_time) # starting at midnight a day before start time
+  end
 
   private
 
