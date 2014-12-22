@@ -11,6 +11,7 @@ module SpecialistDocumentFixtures
       market_sector: 'oil-and-gas',
       case_type: 'some-case-type',
       case_state: 'open'
+	  case_state: 'close'
     }
   end
 end
